@@ -624,7 +624,7 @@
                                     <a href="#presentation" class="tocxref" class="secno">2.9 </span>Role=presentation 혹은 Role=none 사용</a>
                                 </li>
                                 <li class="tocline">
-                                    <a href="#practical-support-aria-label-aria-labelledby-and-aria-describedby" class="tocxref" class="secno">2.10 </span>실용적인 지원: aria-label, aria-labelledby 및 aria-describedby</a>
+                                    <a href="#practical-support-aria-label-aria-labelledby-and-aria-describedby" class="tocxref" class="secno">2.10 </span>실용적 지원: aria-label, aria-labelledby, aria-describedby</a>
                                     <ol class="toc">
                                         <li class="tocline">
                                             <a href="#the-effect-of-accessible-name-on-background-images" class="tocxref" class="secno">2.10.1 </span>배경 이미지에 접근 가능한 이름이 미치는 영향</a>
@@ -1039,155 +1039,166 @@ user name &lt;div  <mark>role="combobox"</mark>&gt;&lt;/div&gt;
                         </code>
                         <p>
                             <strong>참고:</strong> <code>role=presentation/none</code>가 있는 요소의 필수 하위 요소<em>가 아닌</em> 모든 요소는 의미 체계를 유지합니다 . 여기에는 중첩 목록이나 중첩 테이블과 같은 필수 하위 항목이 있는 다른 요소가 포함됩니다.
-
-
-                            <strong>Note:</strong> Any elements that <em>are not</em> required children of   the element with a <code>role=presentation/none</code> keep their semantics. This   includes other elements with required children such as nested lists or nested tables.
                         </p>
-                        <p>For example this code, consisting of a table with another table nested inside it, in the HTML tree:</p>
-                        <pre class="nohighlight">
-                            <code class="block">&lt;table&gt;
-                                &lt;tr&gt;
-                                &lt;td&gt;
-                                &lt;table&gt;
-                                &lt;tr&gt;
-                                &lt;td&gt;
-                                &lt;abbr&gt;<abbr title="Application Programming Interfaces">API</abbr>&lt;/abbr&gt;
-                                &lt;/td&gt;
-                                &lt;/tr&gt;
-                                &lt;/table&gt;
-                                &lt;/td&gt;
-                                &lt;/tr&gt;
-                                &lt;/table&gt;</code>
-                            </pre>
-                            <p>Becomes this in the accessibility tree:</p>
+                        <p>예를 들어 HTML 트리에서 내부에 중첩된 다른 테이블이 있는 테이블로 구성된 다음 코드는 다음과 같습니다.</p>
+                        <pre class="nohighlight"><code class="block">&lt;table&gt;
+    &lt;tr&gt;
+        &lt;td&gt;
+            &lt;table&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;
+                      &lt;abbr&gt;<abbr title="Application Programming Interfaces">API</abbr>&lt;/abbr&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+            &lt;/table&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+                            <p>접근성 트리에서는 다음과 같이 됩니다.</p>
                             <code class="block">
-                                <img src="table2.png" width="286" height="149" alt="outer ttable with 1 row and 1 cell containg another table with 1 row and 1 cell containing an abbr element.">
+                                <img src="table2.png" width="286" height="149" alt="1열 1행의 테이블이 abbr 요소를 포함하는 1열 1행의 다른 테이블을 포함하고 있다.">
+                            </code>  
+                            <p>
+                                <code>role=presentation/none</code>을 외부 <code>table</code> 요소에 추가하면 HTML 트리에 다음 코드가 표시됩니다.
+                            </p>
+                            <pre class="nohighlight"><code class="block">&lt;table <mark>role="presentation"</mark>&gt;
+    &lt;tr&gt;
+        &lt;td&gt;
+            &lt;table&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;
+                        &lt;abbr&gt;<abbr title="Application Programming Interfaces">API</abbr>&lt;/abbr&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+            &lt;/table&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+                            <p>
+                                <code>role=presentation/none</code>을 추가하여 필수 하위 항목(<code>tr</code> 및 <code>td</code> 요소)을 포함한 외부 <code>table</code>은 접근성 트리에서 의미가 제거됩니다
+                            </p>
+                            <code class="block">
+                                <img src="table.png" width="286" height="145" alt="abbr 요소를 포함한 1열 1행의 테이블">
                             </code>
-                                                
-                                                <p>By adding <code>role=presentation/none</code> to the outer <code>table</code> element, this code in the HTML tree:</p>
-                                                <pre class="nohighlight">
-                                                    <code class="block">&lt;table <mark>role="presentation"</mark>&gt;
-                                                        &lt;tr&gt;
-                                                        &lt;td&gt;
-                                                        &lt;table&gt;
-                                                        &lt;tr&gt;
-                                                        &lt;td&gt;
-                                                        &lt;abbr&gt;<abbr title="Application Programming Interfaces">API</abbr>&lt;/abbr&gt;
-                                                        &lt;/td&gt;
-                                                        &lt;/tr&gt;
-                                                        &lt;/table&gt;
-                                                        &lt;/td&gt;
-                                                        &lt;/tr&gt;
-                                                        &lt;/table&gt;</code>
-                                                    </pre>
-                                                    <p>Becomes this in the accessibility tree, the semantics of the outer <code>table</code> including its required children (the <code>tr</code> and <code>td</code> elements)
-                                                        are removed by the addition of <code>role=presentation/none</code>:</p>
-                                                        <code class="block">
-                                                            <img src="table.png" width="286" height="145" alt="table with 1 row and 1 cell containing an abbr element">
-                                                        </code>
-                                                        
-                                                        <h3 tabindex="-1" id="label">Examples of <code>role=presentation/none</code> Use<a class="self-link" aria-label="§" href="#ariapresentation">
-                                                        </a>
-                                                    </h3>
-                                                    <p>Use in fixing an incorrect table structure</p>
-                                                    <pre class="nohighlight">
-                                                        <code class="block">&lt;div aria-readonly="true" role="grid"&gt;
-                                                            &lt;table <mark>role="presentation"</mark>&gt;
-                                                            &lt;tbody&gt;&lt;tr role="row"&gt;
-                                                            &lt;th role="columnheader"&gt;Dog Names&lt;/th&gt;
-                                                            &lt;th role="columnheader"&gt;Cat Names&lt;/th&gt;
-                                                            &lt;th role="columnheader"&gt;Cow names&lt;/th&gt;
-                                                            &lt;/tr&gt;
-                                                            &lt;/tbody&gt;&lt;/table&gt;
-                                                            &lt;table <mark>role="none"</mark>&gt;
-                                                            &lt;tbody&gt;&lt;tr role="row"&gt;
-                                                            &lt;td role="gridcell"&gt;Fido&lt;/td&gt;
-                                                            &lt;td role="gridcell"&gt;Whiskers&lt;/td&gt;
-                                                            &lt;td role="gridcell"&gt;Clarabella&lt;/td&gt;
-                                                            &lt;/tr&gt;
-                                                            &lt;tr role="row"&gt;
-                                                            &lt;td role="gridcell"&gt;Woofie&lt;/td&gt;
-                                                            &lt;td role="gridcell"&gt;Claws&lt;/td&gt;
-                                                            &lt;td role="gridcell"&gt;Glenn&lt;/td&gt;
-                                                            &lt;/tr&gt;
-                                                            &lt;/tbody&gt;&lt;/table&gt;
-                                                            &lt;/div&gt;</code>
-                                                        </pre>
-                                                    </section>
-                                                    <section id="label-support">
-                                                        
-                                                        <h3 tabindex="-1" id="practical-support-aria-label-aria-labelledby-and-aria-describedby">
-                                                            <span class="secno">2.10 </span>Practical Support: aria-label, aria-labelledby and aria-describedby<a class="self-link" aria-label="§" href="#label-support">
-                                                            </a>
-                                                        </h3>
-                                                        <p>Here is a summary  as of this writing:</p>
-                                                        <ul> <li>  <code>aria-labelledby</code> and <code>aria-describedby</code> are  robustly supported for  <a href="https://www.w3.org/html/wg/drafts/html/master/single-page.html#interactive-content-0"> interactive content</a> elements such as <a href="https://www.w3.org/html/wg/drafts/html/master/single-page.html#the-a-element">links</a> and form controls including the many <a href="https://www.w3.org/html/wg/drafts/html/master/single-page.html#the-input-element">
-                                                            <code>input</code>
-                                                        </a> types.</li>
-                                                        
-                                                        <li>For most assistive technology it's fine to use <code>aria-label</code> or <code>aria-labelledby</code> on the <code>&lt;nav&gt;</code>,  and <code>&lt;main&gt;</code> elements but not on  <code>&lt;footer&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>, or <code>&lt;header&gt;</code> . </li>
-                                                        <li>There is mixed support for <code>aria-label</code> or <code>aria-labelledby</code> on <code>&lt;aside&gt;</code>. </li>
-                                                        <li> Talkback on Android overrides the content of all landmarks  with <code>aria-label</code> or <code>aria-labelledby.</code>
-                                                        </li>
-                                                        <li>Its fine to use <code>aria-label</code> or <code>aria-labelledby</code> on <code>div</code> elements with <code>role=navigation</code>, <code>role=search</code>, <code>role=main</code>, JAWS doesn't support them on <code>role=banner</code>, <code>role=complementary</code>, <code>role=contentinfo. </code>NVDA, VoiceOver, and Talkback are OK</li>
-                                                        <li>
-                                                            <code>aria-label</code>, <code>aria-labelledby</code> and <code>aria-describedby</code> work well on <code>table</code>, <code>th</code> and <code>td</code> elements with a few exceptions for NVDA, VoiceOver on iOS, and Talkback discussed in next section. </li>
-                                                            
-                                                            <li>Don't use <code>aria-label</code> or <code>aria-labelledby</code>   on any heading elements because it overrides them on NVDA, VoiceOver and Talkback. JAWS ignores them. </li>
-                                                            <li>Don't use <code>aria-label</code>  or <code>aria-labelledby</code>  on any other non-interactive content such as <code> p</code>, <code>legend</code>, <code>li</code>, or <code>ul</code>, because it is ignored. </li>
-                                                            <li>Don't use <code>aria-label</code> or <code>aria-labelledby</code> on a <code>span</code> or <code>div</code> <em>
-                                                                <strong>unless</strong>
-                                                            </em> its given a <code>role</code>. When <code>aria-label</code> or <code>aria-labelledby</code> are on interactive roles (such as a <code>link</code> or <code>button</code>) or an <code>img</code> role, they   override the contents of the <code>div</code> or <code>span</code>.  Other roles besides Landmarks (discussed above) are ignored.</li>
-                                                            <li>
-                                                                <code>aria-describedby</code> on a <code>span</code> or <code>div</code> will be ignored by NVDA and VoiceOver unless  given an interactive <code>role</code>, an image or landmark <code>role</code>. JAWS and Talkback are OK. </li>
-                                                                <li>
-                                                                    <code>aria-describedby</code> will be ignored by NVDA and VoiceOver on any other static content. JAWS and Talkback are OK.</li>
-                                                                    
-                                                                </ul>
-                                                                <p>All of the above also work the same in <a href="https://www.w3.org/TR/html52/semantics-embedded-content.html#the-iframe-element">iframe</a> elements. Both <code>aria-label</code>  and <code>aria-labelledby</code> have  the same behaviour with screen readers and the Accessibility <abbr title="Application Programming Interfaces">API</abbr>, but <code>aria-label</code> should be reserved for when there is no visible text on the page to reference or when keeping track of <code>id</code> values would be too difficult. </p>
-                                                                
-                                                                <h3 id="internet-explorer-notes-on-aria-labelledby-aria-label-and-aria-describedby">Internet explorer notes on aria-labelledby, aria-label, and aria-describedby<a class="self-link" aria-label="§" href="#label-support">
-                                                                </a>
-                                                            </h3>
-                                                            <p>In Internet Explorer, if you use <code>aria-labelledby</code> with multiple <code>id</code> references or <code>aria-describedby</code> with single or multiple <code>id</code> references, the referenced elements <strong>must be</strong> what Microsoft terms as <a href="http://msdn.microsoft.com/en-us/library/ie/gg701963%28v=vs.85%29.aspx#Accessible_HTML_Elements">accessible HTML elements</a>.</p>
-                                                            <p>The following example of <code>aria-labelledby</code> with multiple references uses  a <code>span</code> with a <code>tabindex=-1</code> added. Refer to <a href="http://msdn.microsoft.com/en-us/library/ie/gg701963%28v=vs.85%29.aspx#Making_Nonaccessible_Elements_Accessible">Making Non accessible Elements Accessible</a>.</p>
-                                                            <code class="block">&lt;label
-                                                                <mark>id="l1"</mark>
-                                                                for="f3"&gt;label text&lt;/label&gt;<br>
-                                                                <br>
-                                                                &lt;input type="text" id="f3"
-                                                                <mark>aria-labelledby="l1 l2"</mark>
-                                                                &gt;<br>
-                                                                <br>
-                                                                &lt;p&gt;other content&lt;/p&gt;<br>
-                                                                <br>
-                                                                &lt;span
-                                                                <mark>tabindex="-1"</mark>
-                                                                <mark>id="l2"</mark>
-                                                                &gt;more label text&lt;/span&gt;</code>
-                                                                <p>Elements also become <a href="http://msdn.microsoft.com/en-us/library/ie/gg701963%28v=vs.85%29.aspx#Accessible_HTML_Elements">accessible HTML elements</a> in Internet Explorer when the element has an <abbr title="Accessible Rich Internet Applications">ARIA</abbr> role. For example:</p>
-                                                                <code class="block">&lt;div aria-describedby="test"&gt;text&lt;/div&gt;<br>
-                                                                    <br>
-                                                                    &lt;div id="test"
-                                                                    <mark>role="tooltip"</mark>
-                                                                    &gt;tooltip text&lt;/div&gt; </code>
-                                                                    
-                                                                    
-                                                                    <h4 id="hiding-content-has-no-effect-on-accessible-name-or-description-calculation">Hiding Content Has No Effect on Accessible Name or Description Calculation<a class="self-link" aria-label="§" href="#label-support">
-                                                                    </a>
-                                                                </h4>
-                                                                <p>By design, hiding the content (using CSS <code>display:none</code> or <code>visibility:hidden</code> or the HTML <a href="https://www.w3.org/TR/html51/editing.html#the-hidden-attribute">hidden attribute</a>) of the element(s) referenced by <a href="https://www.w3.org/TR/wai-aria-1.1/#aria-labelledby">aria-labelledby</a> and <a href="https://www.w3.org/TR/wai-aria-1.1/#aria-describedby">aria-describedby</a> does not stop the content from being used to provide the name/description.<!--more-->
-                                                                </p>
-                                                                <blockquote>By default, <a class="termref internalDFN" href="https://www.w3.org/TR/accname-aam-1.1/#dfn-assistive-technologies">assistive technologies</a> do not relay hidden information, but an author can explicitly override that and include hidden text as part of the <a class="termref internalDFN" href="https://www.w3.org/TR/accname-aam-1.1/#dfn-accessible-name">accessible name</a> or <a class="termref internalDFN" href="https://www.w3.org/TR/accname-aam-1.1/#dfn-accessible-description">accessible description</a> by using <code>aria-labelledby</code> or <code>aria-describedby</code>.
-                                                                    <footer>
-                                                                        <cite>- <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd">Accessible Name and Description: Computation and <abbr title="Application Programming Interfaces">API</abbr> Mappings 1.1</a>
-                                                                        </cite>
-                                                                    </footer>
-                                                                </blockquote>
-                                                                <p>In the following example the description will be available to assistive technology users in both states: </p>
-                                                                <p>
-                                                                    <strong>Non-error state: </strong>message visually hidden
-                                                                </p>
+                            
+                            <h3 tabindex="-1" id="label"><code>role=presentation/none</code> 사용 예<a class="self-link" aria-label="§" href="#ariapresentation"></a>
+                        </h3>
+                        <p>잘못된 테이블 구조를 수정하는 데 사용</p>
+                        <pre class="nohighlight"><code class="block">&lt;div aria-readonly="true" role="grid"&gt;
+    &lt;table <mark>role="presentation"</mark>&gt;
+        &lt;tbody&gt;
+            &lt;tr role="row"&gt;
+                &lt;th role="columnheader"&gt;Dog Names&lt;/th&gt;
+                &lt;th role="columnheader"&gt;Cat Names&lt;/th&gt;
+                &lt;th role="columnheader"&gt;Cow names&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+    &lt;table <mark>role="none"</mark>&gt;
+        &lt;tbody&gt;
+        &lt;tr role="row"&gt;
+            &lt;td role="gridcell"&gt;Fido&lt;/td&gt;
+            &lt;td role="gridcell"&gt;Whiskers&lt;/td&gt;
+            &lt;td role="gridcell"&gt;Clarabella&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr role="row"&gt;
+            &lt;td role="gridcell"&gt;Woofie&lt;/td&gt;
+            &lt;td role="gridcell"&gt;Claws&lt;/td&gt;
+            &lt;td role="gridcell"&gt;Glenn&lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+&lt;/div&gt;</code></pre>
+                        </section>
+                        <section id="label-support">
+                            <h3 tabindex="-1" id="practical-support-aria-label-aria-labelledby-and-aria-describedby">
+                                <span class="secno">2.10 </span>실용적 지원: aria-label, aria-labelledby, aria-describedby<a class="self-link" aria-label="§" href="#label-support">
+                                </a>
+                            </h3>
+                            <p>이 글을 요약하면 다음과 같습니다.</p>
+                            <ul>
+                                <li>
+                                    <code>aria-labelledby</code>와 <code>aria-describedby</code>는 다양한 <a href="https://www.w3.org/html/wg/drafts/html/master/single-page.html#the-input-element"><code>input</code></a> 유형을 포함한 <a href="https://www.w3.org/html/wg/drafts/html/master/single-page.html#the-a-element">links</a> 및 양식 컨트롤 과 같은 대화형 콘텐츠 요소 에 대해 강력하게 지원됩니다.
+                                </li>
+                                <li>
+                                    대부분의 보조 기술의 경우 <code>aria-label</code> 또는 <code>aria-labelledby</code>를 <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code> 요소에 사용할 수 있지만 <code>&lt;footer&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;header&gt;</code>에서는 사용할 수 없습니다.
+                                </li>
+                                <li>
+                                    <code>&lt;aside&gt;</code>에는 <code>aria-label</code> 또는 <code>aria-labelledby</code>에 대한 지원이 혼합되어 있습니다.
+                                </li>
+                                <li>
+                                    Talkback on Android overrides the content of all landmarks  with <code>aria-label</code> or <code>aria-labelledby.</code>
+                                    
+                                </li>
+                                <li>
+                                    Its fine to use <code>aria-label</code> or <code>aria-labelledby</code> on <code>div</code> elements with <code>role=navigation</code>, <code>role=search</code>, <code>role=main</code>, JAWS doesn't support them on <code>role=banner</code>, <code>role=complementary</code>, <code>role=contentinfo. </code>NVDA, VoiceOver, and Talkback are OK
+                                </li>
+                                <li>
+                                    <code>aria-label</code>, <code>aria-labelledby</code> and <code>aria-describedby</code> work well on <code>table</code>, <code>th</code> and <code>td</code> elements with a few exceptions for NVDA, VoiceOver on iOS, and Talkback discussed in next section. 
+                                </li>
+                                <li>
+                                    Don't use <code>aria-label</code> or <code>aria-labelledby</code>   on any heading elements because it overrides them on NVDA, VoiceOver and Talkback. JAWS ignores them. 
+                                </li>
+                                <li>
+                                    Don't use <code>aria-label</code>  or <code>aria-labelledby</code>  on any other non-interactive content such as <code> p</code>, <code>legend</code>, <code>li</code>, or <code>ul</code>, because it is ignored. 
+                                </li>
+                                <li>
+                                    Don't use <code>aria-label</code> or <code>aria-labelledby</code> on a <code>span</code> or <code>div</code> <em>
+                                        <strong>unless</strong>
+                                    </em> its given a <code>role</code>. When <code>aria-label</code> or <code>aria-labelledby</code> are on interactive roles (such as a <code>link</code> or <code>button</code>) or an <code>img</code> role, they   override the contents of the <code>div</code> or <code>span</code>.  Other roles besides Landmarks (discussed above) are ignored.
+                                </li>
+                                <li>
+                                    <code>aria-describedby</code> on a <code>span</code> or <code>div</code> will be ignored by NVDA and VoiceOver unless  given an interactive <code>role</code>, an image or landmark <code>role</code>. JAWS and Talkback are OK. 
+                                </li>
+                                <li>
+                                    <code>aria-describedby</code> will be ignored by NVDA and VoiceOver on any other static content. JAWS and Talkback are OK.
+                                </li>
+                                
+                            </ul>
+                                    <p>All of the above also work the same in <a href="https://www.w3.org/TR/html52/semantics-embedded-content.html#the-iframe-element">iframe</a> elements. Both <code>aria-label</code>  and <code>aria-labelledby</code> have  the same behaviour with screen readers and the Accessibility <abbr title="Application Programming Interfaces">API</abbr>, but <code>aria-label</code> should be reserved for when there is no visible text on the page to reference or when keeping track of <code>id</code> values would be too difficult. </p>
+                                    
+                                    <h3 id="internet-explorer-notes-on-aria-labelledby-aria-label-and-aria-describedby">Internet explorer notes on aria-labelledby, aria-label, and aria-describedby<a class="self-link" aria-label="§" href="#label-support">
+                                    </a>
+                                </h3>
+                                <p>In Internet Explorer, if you use <code>aria-labelledby</code> with multiple <code>id</code> references or <code>aria-describedby</code> with single or multiple <code>id</code> references, the referenced elements <strong>must be</strong> what Microsoft terms as <a href="http://msdn.microsoft.com/en-us/library/ie/gg701963%28v=vs.85%29.aspx#Accessible_HTML_Elements">accessible HTML elements</a>.</p>
+                                <p>The following example of <code>aria-labelledby</code> with multiple references uses  a <code>span</code> with a <code>tabindex=-1</code> added. Refer to <a href="http://msdn.microsoft.com/en-us/library/ie/gg701963%28v=vs.85%29.aspx#Making_Nonaccessible_Elements_Accessible">Making Non accessible Elements Accessible</a>.</p>
+                                <code class="block">&lt;label
+                                    <mark>id="l1"</mark>
+                                    for="f3"&gt;label text&lt;/label&gt;<br>
+                                    <br>
+                                    &lt;input type="text" id="f3"
+                                    <mark>aria-labelledby="l1 l2"</mark>
+                                    &gt;<br>
+                                    <br>
+                                    &lt;p&gt;other content&lt;/p&gt;<br>
+                                    <br>
+                                    &lt;span
+                                    <mark>tabindex="-1"</mark>
+                                    <mark>id="l2"</mark>
+                                    &gt;more label text&lt;/span&gt;</code>
+                                    <p>Elements also become <a href="http://msdn.microsoft.com/en-us/library/ie/gg701963%28v=vs.85%29.aspx#Accessible_HTML_Elements">accessible HTML elements</a> in Internet Explorer when the element has an <abbr title="Accessible Rich Internet Applications">ARIA</abbr> role. For example:</p>
+                                    <code class="block">&lt;div aria-describedby="test"&gt;text&lt;/div&gt;<br>
+                                        <br>
+                                        &lt;div id="test"
+                                        <mark>role="tooltip"</mark>
+                                        &gt;tooltip text&lt;/div&gt; </code>
+                                        
+                                        
+                                        <h4 id="hiding-content-has-no-effect-on-accessible-name-or-description-calculation">Hiding Content Has No Effect on Accessible Name or Description Calculation<a class="self-link" aria-label="§" href="#label-support">
+                                        </a>
+                                    </h4>
+                                    <p>By design, hiding the content (using CSS <code>display:none</code> or <code>visibility:hidden</code> or the HTML <a href="https://www.w3.org/TR/html51/editing.html#the-hidden-attribute">hidden attribute</a>) of the element(s) referenced by <a href="https://www.w3.org/TR/wai-aria-1.1/#aria-labelledby">aria-labelledby</a> and <a href="https://www.w3.org/TR/wai-aria-1.1/#aria-describedby">aria-describedby</a> does not stop the content from being used to provide the name/description.<!--more-->
+                                    </p>
+                                    <blockquote>By default, <a class="termref internalDFN" href="https://www.w3.org/TR/accname-aam-1.1/#dfn-assistive-technologies">assistive technologies</a> do not relay hidden information, but an author can explicitly override that and include hidden text as part of the <a class="termref internalDFN" href="https://www.w3.org/TR/accname-aam-1.1/#dfn-accessible-name">accessible name</a> or <a class="termref internalDFN" href="https://www.w3.org/TR/accname-aam-1.1/#dfn-accessible-description">accessible description</a> by using <code>aria-labelledby</code> or <code>aria-describedby</code>.
+                                        <footer>
+                                            <cite>- <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd">Accessible Name and Description: Computation and <abbr title="Application Programming Interfaces">API</abbr> Mappings 1.1</a>
+                                            </cite>
+                                        </footer>
+                                    </blockquote>
+                                    <p>In the following example the description will be available to assistive technology users in both states: </p>
+                                    <p>
+                                        <strong>Non-error state: </strong>message visually hidden
+                                    </p>
                                                                 <pre class="nohighlight">
                                                                     <code class="block">
                                                                         &lt;label&gt;Name &lt;input type="text"  aria-describedby="error-message"&gt;&lt;/label&gt;
